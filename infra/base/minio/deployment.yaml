@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: minio
+  labels:
+    app: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        image: quay.io/minio/minio:RELEASE.2024-05-30T00-06-38Z
+        args:
+        - server
+        - /data
+        env:
+        - name: MINIO_ROOT_USER
+          value: "minioadmin" # use secrets in prod env
+        - name: MINIO_ROOT_PASSWORD
+          value: "minioadmin" # use secrets in prod env 
+        ports:
+        - containerPort: 9000
+        - containerPort: 9001
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: minio-pv-claim
