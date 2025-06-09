@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-metastore-db
+  namespace: hive-metastore
+  labels:
+    app: hive-metastore-db
+spec:
+  selector:
+    matchLabels:
+      app: hive-metastore-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hive-metastore-db
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:13
+        env:
+        - name: POSTGRES_DB
+          value: "metastore_db"
+        - name: POSTGRES_USER
+          value: "hiveuser"
+        - name: POSTGRES_PASSWORD
+          value: "hivepassword" # use secrets in prod env
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: hive-metastore-db-pvc
