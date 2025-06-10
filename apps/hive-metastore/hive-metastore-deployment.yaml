@@ -17,12 +17,7 @@ spec:
     spec:
       containers:
       - name: hive-metastore
-        image:
-          repository: ghcr.io/khwj/data-platform-containers/hive-metastore
-          # Overrides the image tag whose default is the chart appVersion.
-          tag: "3.0.0-hadoop3.3.1"
-          pullPolicy: IfNotPresent
-          pullSecrets: []
+          image: ghcr.io/melodyyangaws/hive-metastore:3.0.0
         env:
         - name: HIVE_DATABASE_HOST
           value: "hive-metastore-db-service"
