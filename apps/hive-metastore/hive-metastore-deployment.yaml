@@ -31,5 +31,7 @@ spec:
           value: "hivepassword"
         - name: HIVE_DATABASE_TYPE
           value: "postgresql"
+        - name: SERVICE_NAME
+          value: "metastore"
         ports:
         - containerPort: 9083
