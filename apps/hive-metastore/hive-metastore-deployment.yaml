@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hive-metastore
-          image: ghcr.io/melodyyangaws/hive-metastore:3.0.0
+        image: apache/hive:4.0.0
         env:
         - name: HIVE_DATABASE_HOST
           value: "hive-metastore-db-service"
